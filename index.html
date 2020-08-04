@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input id="generateInputPin" class="form-control" type="text">
+                    <button id="generateBtn" class="generate-btn">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input  id="digitInput" class="form-control" type="text">
+                    <p id="digitInputPleace"></p>
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div id="numberSeven" class="button">7</div>
+                              <div id="numberEight" class="button">8</div>
+                              <div id="numberNine" class="button">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div id="numberFour" class="button">4</div>
+                              <div id="numberFive" class="button">5</div>
+                              <div id="numberSix" class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div id="numberOne" class="button">1</div>
+                              <div id="numberTwo" class="button">2</div>
+                              <div id="numberThree" class="button">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div id="removeBtn" class="button"><</div>
+                                <div id="numberZero" class="button">0</div>
+                                <div id="reset" class="button">C</div>
+                            </div>
+                            <div>
+                                <button id="submitBtn" type="submit" class="submit-btn">Submit</button>
+                                <p class="action-left"><span id="tryLeft">3</span>  try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p id="pinDidMatch" class="notify">❌ Pin Didn't Match, Please try again</p>
+            <p id="pinMatch" class="notify">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+
+
+    <script>
+     // Generate Random Number
+        document.getElementById('generateBtn').addEventListener('click', function(){
+                const generateInputPin = document.getElementById('generateInputPin');
+                const randomMath = Math.random(generateInputPin) ;
+            generateInputPin.value = Math.ceil(1000 + randomMath * 9000);
+        })
+    // Number Input
+        document.getElementById('numberOne').addEventListener('click', function(){
+            digitInput('numberOne');
+            document.getElementById('digitInputPleace').style.display ='none';
+        })
+        document.getElementById('numberTwo').addEventListener('click', function(){
+            digitInput('numberTwo');
+            document.getElementById('digitInputPleace').style.display ='none';
+        })
+        document.getElementById('numberThree').addEventListener('click', function(){
+            digitInput('numberThree');
+             document.getElementById('digitInputPleace').style.display ='none';
+        })
+        document.getElementById('numberFour').addEventListener('click', function(){
+            digitInput('numberFour');
+             document.getElementById('digitInputPleace').style.display ='none';
+        })
+        document.getElementById('numberFive').addEventListener('click', function(){
+            digitInput('numberFive');
+             document.getElementById('digitInputPleace').style.display ='none';
+        })
+        document.getElementById('numberSix').addEventListener('click', function(){
+            digitInput('numberSix');
+             document.getElementById('digitInputPleace').style.display ='none';
+        })
+        document.getElementById('numberSeven').addEventListener('click', function(){
+            digitInput('numberSeven');
+             document.getElementById('digitInputPleace').style.display ='none';
+        })
+        document.getElementById('numberEight').addEventListener('click', function(){
+            digitInput('numberEight');
+             document.getElementById('digitInputPleace').style.display ='none';
+        })
+        document.getElementById('numberNine').addEventListener('click', function(){
+            digitInput('numberNine');
+             document.getElementById('digitInputPleace').style.display ='none';
+        })
+        document.getElementById('numberZero').addEventListener('click', function(){
+            digitInput('numberZero');
+             document.getElementById('digitInputPleace').style.display ='none';
+        })
+
+
+    // Number input function
+        function digitInput(one){
+            var fourDigit = document.getElementById('digitInput').value.length;
+            if(fourDigit < 4 ){
+                var number = document.getElementById(one).innerText;
+                    number = parseInt(number);
+                var result = document.getElementById('digitInput').value + number;
+            return document.getElementById('digitInput').value =   result ;
+            
+            }
+        }
+        
+    //Submit Button Click
+        document.getElementById('submitBtn').addEventListener('click', function(){
+            var digitInput = document.getElementById('digitInput').value;
+            if(digitInput == ''){
+            
+                document.getElementById('digitInputPleace').innerText = 'Pleace Input Value';
+            
+            }else{
+                    var digitInput =  document.getElementById('digitInput').value;
+                    var generateValue =  document.getElementById('generateInputPin').value;
+                if(digitInput == generateValue){
+                        document.getElementById('pinMatch').style.display = 'block';
+                        document.getElementById('pinDidMatch').style.display = 'none';
+                }else{
+                        document.getElementById('pinMatch').style.display = 'none';
+                        document.getElementById('pinDidMatch').style.display = 'block';
+                        document.getElementById('digitInput').value= '';
+                }
+                    //Try left condition
+                    var tryLeft = parseInt(document.getElementById('tryLeft').innerText);
+                        tryLeft = tryLeft - 1;
+                    document.getElementById('tryLeft').innerText = tryLeft;
+                if(tryLeft == 0){   // if you answer wrong 3 times, your submit button and generate button will be disabled
+                        document.getElementById('submitBtn').setAttribute('disabled', true);
+                    
+                }
+            }
+        
+        })
+   
+   //Reset Input Number 
+        document.getElementById('reset').addEventListener('click', function(){
+            document.getElementById('digitInput').value = '';
+        })
+        
+   //Remove Last Number
+        document.getElementById('removeBtn').addEventListener('click', function(){
+            var digitInput = document.getElementById('digitInput').value;
+            for (var i = 0; i < digitInput.length; i++)      // for removing 1 number from the last
+                    {
+                        var backspace = digitInput.slice(0, -1);
+                        document.getElementById("digitInput").value = backspace;
+                    }
+        })
+  
+   
+    </script>
+</body>
+</html>
